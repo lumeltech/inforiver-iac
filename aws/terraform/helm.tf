@@ -1,7 +1,15 @@
-resource "helm_release" "inforiver" {
-  name       = "inforiver"
+resource "helm_release" "example" {
+  name       = "inforiverdeployment"
   repository = "https://newmannbritto.github.io/Turing-Helm"
   chart      = "inforiver"
+  version    = "0.1.0"
+  timeout    = "300"
+  wait       = "false"
+
+  set {
+    name  = "image.tag"
+    value = var.imagetag
+  }
 
   set {
     name  = "env.ADMIN_PORTAL_URL"
@@ -11,6 +19,11 @@ resource "helm_release" "inforiver" {
   set {
     name  = "env.APP_HOST"
     value = var.AppHost
+  }  
+
+  set {
+    name  = "env.AWS_REGION"
+    value = var.region
   }  
 
   set {
@@ -133,19 +146,30 @@ resource "helm_release" "inforiver" {
     value = var.Dockerpwd
   }  
 
+
   set {
-    name  = "loadbalancer.SSL_ARN"
-    value = var.SSLCertificateArn
-  }  
+    name  = "loadbalancer.SG_ARN"
+    value = aws_security_group.alb_securitygroup.id
+  } 
 
   set {
     name  = "loadbalancer.PUB_SUBNET_ID"
     value = aws_subnet.public.id
-  }  
+  }   
 
   set {
     name  = "loadbalancer.APP_SUBNET_NAME"
     value = "${var.project}-application-subnet"
   }  
 
+  set {
+    name  = "loadbalancer.SSL_ARN"
+    value = var.SSL_ARN
+  } 
+
+
+  depends_on            = [
+    aws_eks_node_group.workernode,
+    aws_instance.jump_box
+    ]
 }

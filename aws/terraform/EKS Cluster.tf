@@ -6,6 +6,7 @@ resource "aws_eks_cluster" "inforiver_eks" {
   enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
   vpc_config {
     subnet_ids              = [aws_subnet.public.id,aws_subnet.application.id,aws_subnet.database.id]
+    security_group_ids      = [aws_security_group.eks_security_group.id]
     endpoint_private_access = true
     endpoint_public_access  = true
     public_access_cidrs     = ["0.0.0.0/0"]
@@ -18,7 +19,8 @@ resource "aws_eks_cluster" "inforiver_eks" {
 
   depends_on                = [
     aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy,
-    aws_vpc.inforiver_vpc,aws_subnet.public,aws_subnet.application,aws_subnet.database
+    aws_vpc.inforiver_vpc,aws_subnet.public,aws_subnet.application,aws_subnet.database,
+    aws_security_group.eks_security_group
   ]
 }
 

@@ -159,7 +159,7 @@ resource "aws_route_table_association" "private_internet_access" {
 
 # Subnet grouping for Database.
 resource "aws_db_subnet_group" "mssql_subnet_group" {
-  name                  = "turing-dbsubnetgroup"
+  name                  = "inforivertestdbsubnetgroup"
   description           = "The RDS-Mssql private subnet group for ${var.project} application ."
   subnet_ids            = [aws_subnet.application.id, aws_subnet.database.id]
 
@@ -282,6 +282,19 @@ resource "aws_security_group" "eks_security_group" {
 resource "aws_vpc_security_group_ingress_rule" "cluster_ingress" {
   description                  = "Allow incoming kubelet traffic."
   referenced_security_group_id = aws_security_group.eks_security_group.id
+  security_group_id            = aws_security_group.eks_security_group.id
+  from_port                    = "-1"
+  ip_protocol                  = "-1"
+  to_port                      = "-1"
+
+  depends_on          = [
+    aws_security_group.eks_security_group,
+    ]
+}
+
+resource "aws_vpc_security_group_ingress_rule" "alb_ingress" {
+  description                  = "Allow incoming traffic from loadbalancer."
+  referenced_security_group_id = aws_security_group.alb_securitygroup.id
   security_group_id            = aws_security_group.eks_security_group.id
   from_port                    = "-1"
   ip_protocol                  = "-1"

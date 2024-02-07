@@ -8,6 +8,7 @@ cache_instance_class     =
 redis_auth_token         = 
 instance_type            = "t3.2xlarge"
 disk_size                = "30"
+imagetag                 = ""
 AdminPortalURL           = 
 AppHost                  = 
 S3BucketName             = 
@@ -23,6 +24,6 @@ SMTPAPIKey               =
 SMTPHost                 = 
 SMTPUsername             = 
 SMTPservice              = 
-SSLCertificateArn        = 
+SSL_ARN                  = 
 WebHookKey               = 
 

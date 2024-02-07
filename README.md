@@ -8,7 +8,4 @@
    terraform plan -var-file="values.tfvars"  # to view the resources values before provison
    terraform apply -var-file="values.tfvars" # to provison the resources
    ```
-5. Once the deployment is completed, execute the following command to annotate the service account with the worker node ARN (Ensure the worker node ARN is granted permissions to access the S3 bucket). 
-   ```
-   kubectl annotate serviceaccount -n <NAMESPACE> default eks.amazonaws.com/role-arn=<REPLACE THE WORKERNODE ROLE ARN HERE>
-   ```
+5. Once the deployment is completed, Ensure the worker node ARN is granted permissions to access the S3 bucket.

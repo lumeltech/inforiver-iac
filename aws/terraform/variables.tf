@@ -82,6 +82,11 @@ variable "redis_auth_token" {
   type        = string  
 }
 
+variable "imagetag" {
+  description = "Tag version of the image"
+  type        = string  
+}
+
 variable "AdminPortalURL" {
   description = " Certification URL to host website i.e., https://inforiver.com/. This will be your admin portal."
   type        = string  
@@ -157,8 +162,8 @@ variable "SMTPUsername" {
   type        = string  
 }
 
-variable "SSLCertificateArn" {
-  description = " SSL certification ARN for loadbalancer"
+variable "SSL_ARN" {
+  description = " SSL certificate Arn for your loadbalancer"
   type        = string  
 }
 
