@@ -26,6 +26,4 @@ SMTPUsername             =
 SMTPservice              = 
 SSL_ARN                  = 
 WebHookKey               = 
-FabricStorageAccountName = 
-FabricStorageAccountKey  =
 

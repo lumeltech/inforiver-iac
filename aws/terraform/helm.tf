@@ -1,3 +1,31 @@
+resource "helm_release" "aws-load-balancer-controller" {
+  name       = "aws-load-balancer-controller"
+  repository = "https://aws.github.io/eks-charts"
+  chart      = "aws-load-balancer-controller"
+  version    = "1.11.0"
+  namespace  = "kube-system"
+  timeout    = "300"
+  wait       = "false"
+  
+  set {
+    name  = "clusterName"
+    value = "${var.project}-cluster"
+  }
+
+  set {
+    name  = "serviceAccount.create"
+    value = "false"
+  }
+
+  set {
+    name  = "serviceAccount.name"
+    value = "aws-load-balancer-controller"
+  }
+  depends_on            = [
+    aws_eks_node_group.workernode
+    ]
+}
+
 resource "helm_release" "inforiver" {
   name       = "inforiverdeployment"
   repository = "https://newmannbritto.github.io/Turing-Helm"
@@ -156,25 +184,19 @@ resource "helm_release" "inforiver" {
     value = var.Dockerpwd
   }  
 
-
   set {
     name  = "loadbalancer.SG_ARN"
     value = aws_security_group.alb_securitygroup.id
   } 
 
   set {
-    name  = "loadbalancer.PUB_SUBNET_ID"
-    value = aws_subnet.public.id
-  }   
-
-  set {
-    name  = "loadbalancer.APP_SUBNET_NAME"
-    value = "${var.project}-application-subnet"
-  }  
-
-  set {
     name  = "loadbalancer.SSL_ARN"
     value = var.SSL_ARN
+  } 
+
+  set {
+    name  = "loadbalancer.NAME"
+    value = "${var.project}-loadbalancer"
   } 
 
   set {
@@ -190,6 +212,7 @@ resource "helm_release" "inforiver" {
 
   depends_on            = [
     aws_eks_node_group.workernode,
-    aws_instance.jump_box
+    aws_instance.jump_box,
+    helm_release.aws-load-balancer-controller
     ]
 }

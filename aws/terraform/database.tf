@@ -8,7 +8,7 @@ resource "aws_db_instance" "turing_db" {
   publicly_accessible        = false
   multi_az                   = false
   auto_minor_version_upgrade = true
-  availability_zone          = data.aws_availability_zones.available.names[2]
+  availability_zone          = data.aws_availability_zones.available.names[1]
   storage_type               = "gp2" 
   port                       = 1433
   network_type               = "IPV4"  

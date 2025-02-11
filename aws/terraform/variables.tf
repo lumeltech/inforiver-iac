@@ -16,20 +16,26 @@ variable "publicsb_cidr" {
   default     = "10.0.0.0/24"
 }
 
-variable "applicationsb_cidr" {
+variable "publicsb1_cidr" {
   description = "The CIDR block for the VPC. Default value is a valid CIDR, but not acceptable by AWS and should be overridden"
   type        = string
   default     = "10.0.1.0/24"
 }
 
-variable "databasesb_cidr" {
+variable "servicesb_cidr" {
   description = "The CIDR block for the VPC. Default value is a valid CIDR, but not acceptable by AWS and should be overridden"
   type        = string
   default     = "10.0.2.0/24"
 }
 
+variable "service1sb_cidr" {
+  description = "The CIDR block for the VPC. Default value is a valid CIDR, but not acceptable by AWS and should be overridden"
+  type        = string
+  default     = "10.0.3.0/24"
+}
+
 variable "project" {
-  description = "Name to be used on all the resources as identifier.Application name"
+  description = "Name to be used on all the resources as identifier i.e, Application name"
   type = string
 }
 
@@ -42,7 +48,7 @@ variable "instance_type" {
 variable "disk_size" {
   description = "K8's worker node disk size"
   type = number
-  default = 20
+  default = 30
  
 }
 
@@ -54,7 +60,7 @@ variable "db_identifiername" {
 variable "db_storage_allocation" {
   description = "Allocated storage for RDS Mssql database"
   type        = string
-  default     = 20
+  default     = 30
 }
 
 variable "db_instance_class" {
